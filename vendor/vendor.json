@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "H22llJzYnCDRUE6RS0vxa5jH12E=",
+			"path": "github.com/gin-gonic/gin",
+			"revision": "848fa41ca016fa3a3d385af710c4219c1cb477a4",
+			"revisionTime": "2017-09-05T01:17:53Z"
+		}
+	],
+	"rootPath": "github.com/leonzhao/panicgo"
+}
