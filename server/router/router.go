@@ -13,7 +13,7 @@ func InitRoutes(e *gin.Engine) {
 		devRouter.GET("/ping", dev.Ping)
 	}
 
-	userRouter := e.Group("/users")
+	userRouter := e.Group("/user")
 	{
 		userRouter.POST("/signup", user.Signup)
 		userRouter.POST("/signin", user.Signin)

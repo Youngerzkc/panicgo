@@ -2,16 +2,22 @@ package user
 
 import (
 	"encoding/json"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/gin-gonic/gin"
 	"github.com/bitschain/panicgo/server/model"
 	"log"
-	"math/rand"
 	"net/http"
 	"strconv"
+	"fmt"
 )
 
-type AccountInfo struct {
+type SignUpInfo struct {
 	Name     string `json:"name" valid:"runelength(4|20)"`
+	Email    string `json:"email" valid:"email,runelength(5|50)"`
+	Password string `json:"password" valid:"runelength(6|20)"`
+}
+
+type SignInInfo struct {
 	Email    string `json:"email" valid:"email,runelength(5|50)"`
 	Password string `json:"password" valid:"runelength(6|20)"`
 }
@@ -28,7 +34,7 @@ type PersonalInfo struct {
 
 // Signup 用户注册
 func Signup(c *gin.Context) {
-	var data AccountInfo
+	var data SignUpInfo
 	if err := c.BindJSON(&data); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
 	}
@@ -39,13 +45,45 @@ func Signup(c *gin.Context) {
 	user.Password = user.EncryptPassword(data.Password, user.Salt())
 	user.Role = model.UserRoleNormal
 	user.Status = model.UserStatusInActive
-	user.AvatarURL = "/images/avatar" + strconv.Itoa(rand.Intn(2)) + ".png"
+	//user.AvatarURL = "/images/avatar" + strconv.Itoa(rand.Intn(2)) + ".png"
 
 	if err := model.DB.Create(&user).Error; err != nil {
 		c.JSON(http.StatusOK, gin.H{"status": "invalid"})
 	}
 	c.JSON(http.StatusOK, user)
 }
+
+
+// Signin 用户登录
+func Signin(c *gin.Context) {
+	var data SignInInfo
+
+	if err := c.BindJSON(&data); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
+	}
+
+	var user model.User
+
+	if err := model.DB.Where("email = ?", data.Email).First(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "db error"})
+	}
+
+	if user.VerifyPassword(data.Password) {
+		if user.Status == model.UserStatusInActive {
+			c.JSON(http.StatusUnauthorized, gin.H{"errno": 401001, "msg": "inactive account"})
+		}else {
+			c.JSON(http.StatusOK, gin.H{"errno": 0, "msg": "success", "data": user})
+		}
+	} else {
+		c.JSON(http.StatusUnauthorized, gin.H{"errno": 401002, "msg": "error password"})
+	}
+}
+
+// Signout 用户退出
+func Signout(c *gin.Context) {
+
+}
+
 
 // UpdateInfo 更新用户信息
 func UpdateInfo(c *gin.Context) {
@@ -89,16 +127,6 @@ func PublicInfo(c *gin.Context) {
 
 	log.Println(user)
 	c.JSON(http.StatusOK, user)
-}
-
-// Signin 用户登录
-func Signin(c *gin.Context) {
-
-}
-
-// Signout 用户退出
-func Signout(c *gin.Context) {
-
 }
 
 // ActiveAccount 激活账号
