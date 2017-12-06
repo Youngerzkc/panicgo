@@ -3,7 +3,7 @@ PACKAGES ?= $(shell go list ./... | grep -v /vendor/)
 GOFILES := $(shell find . -name "*.go" -type f -not -path "./vendor/*")
 
 all:
-	go build
+	go build -o panicgo
 
 run:
 	nohup ./panicgo &
@@ -12,7 +12,7 @@ install: deps
 	govendor sync
 
 clean:
-	rm server
+	rm panicgo
 
 .PHONY: test
 test:

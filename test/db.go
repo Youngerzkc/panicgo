@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"fmt"
 	"os"
-	"github.com/bitschain/panicgo/server/model"
+	"github.com/bitschain/panicgo/model"
 	"log"
 )
 

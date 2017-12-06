@@ -7,9 +7,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/bitschain/panicgo/server/test"
+	"github.com/bitschain/panicgo/test"
 	"github.com/stretchr/testify/assert"
-	"github.com/bitschain/panicgo/server/model"
+	"github.com/bitschain/panicgo/model"
 	"fmt"
 )
 

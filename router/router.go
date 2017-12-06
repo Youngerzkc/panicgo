@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/bitschain/panicgo/server/controller/dev"
-	"github.com/bitschain/panicgo/server/controller/user"
+	"github.com/bitschain/panicgo/controller/dev"
+	"github.com/bitschain/panicgo/controller/user"
 )
 
 func InitRoutes(e *gin.Engine) {

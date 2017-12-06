@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/gin-gonic/gin"
-	"github.com/bitschain/panicgo/server/model"
+	"github.com/bitschain/panicgo/model"
 	"log"
 	"net/http"
 	"strconv"
