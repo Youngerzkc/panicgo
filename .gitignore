@@ -1,2 +1,4 @@
 .idea/
 panicgo
+vendor/
+!vendor/vendor.json
