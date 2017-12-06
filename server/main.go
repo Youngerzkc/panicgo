@@ -12,8 +12,8 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/leonzhao/panicgo/model"
-	"github.com/leonzhao/panicgo/router"
+	"github.com/bitschain/panicgo/server/model"
+	"github.com/bitschain/panicgo/server/router"
 )
 
 func init() {

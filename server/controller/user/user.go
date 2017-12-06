@@ -3,7 +3,7 @@ package user
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/leonzhao/panicgo/model"
+	"github.com/bitschain/panicgo/server/model"
 	"log"
 	"math/rand"
 	"net/http"

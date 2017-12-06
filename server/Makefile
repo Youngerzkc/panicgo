@@ -12,7 +12,7 @@ install: deps
 	govendor sync
 
 clean:
-	rm panicgo
+	rm server
 
 .PHONY: test
 test:
