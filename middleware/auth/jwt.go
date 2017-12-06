@@ -1,12 +1,12 @@
 package auth
 
 import (
-	"github.com/gin-gonic/gin"
-	"strings"
-	"github.com/dgrijalva/jwt-go"
 	"errors"
-	"time"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
+	"time"
 )
 
 type JWT struct {
@@ -14,22 +14,22 @@ type JWT struct {
 }
 
 type CustomClaims struct {
-	ID int `json:"id"`
-	Name string `json:"name"`
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
 	Email string `json:"email"`
 	jwt.StandardClaims
 }
 
 var (
-	TokenExpired = errors.New("Token is expired")
+	TokenExpired     = errors.New("Token is expired")
 	TokenNotValidYet = errors.New("Token not active yet")
-	TokenMalformed = errors.New("That's not even a token")
-	TokenInvalid = errors.New("Couldn't handle this token")
-	SignKey = "test sign key"
+	TokenMalformed   = errors.New("That's not even a token")
+	TokenInvalid     = errors.New("Couldn't handle this token")
+	SignKey          = "test sign key"
 )
 
 func NewJWT() *JWT {
-	return &JWT {
+	return &JWT{
 		[]byte(GetSignKey()),
 	}
 }
@@ -103,7 +103,7 @@ func JWTAuth() gin.HandlerFunc {
 
 		if token == "" {
 			token = c.Request.Header.Get("Authorization")
-			if s:= strings.Split(token, " "); len(s) == 2 {
+			if s := strings.Split(token, " "); len(s) == 2 {
 				token = s[1]
 			}
 		}
@@ -115,7 +115,7 @@ func JWTAuth() gin.HandlerFunc {
 		if err != nil {
 			if err == TokenExpired {
 				if token, err = j.RefreshToken(token); err == nil {
-					c.Header("Authorization", "Bear "+token)
+					c.Header("Authorization", "Bearer "+token)
 					c.JSON(http.StatusOK, gin.H{"error": 0, "message": "refresh token", "token": token})
 					return
 				}
@@ -124,7 +124,6 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 		c.Set("claims", claims)
-
 
 	}
 }

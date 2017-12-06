@@ -48,6 +48,15 @@ func (user User) EncryptPassword(password, salt string) (hash string) {
 	return hash
 }
 
+func (user User) VerifyPassword(password string) bool {
+	if password == "" || user.Password == "" {
+		return false
+	}
+
+	ep := user.EncryptPassword(password, user.Salt())
+	return ep == user.Password
+ }
+
 const (
 	UserRoleNormal     = 1
 	UserRoleEditor     = 2

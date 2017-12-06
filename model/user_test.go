@@ -18,3 +18,12 @@ func TestEncryptPassword(t *testing.T) {
 	hashPwd := user.EncryptPassword("123456", "panicgo")
 	fmt.Println(hashPwd)
 }
+
+func TestVerifyPassword(t *testing.T) {
+	var user User
+	user.Password = user.EncryptPassword("123456", user.Salt())
+	fmt.Println(user.Password)
+	correct := user.VerifyPassword("123456")
+	assert.True(t, correct)
+
+}
