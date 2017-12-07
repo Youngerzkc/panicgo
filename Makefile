@@ -9,7 +9,6 @@ run:
 	nohup ./panicgo &
 
 install: deps
-	go get ./...
 	govendor sync
 
 clean:
