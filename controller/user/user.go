@@ -2,9 +2,9 @@ package user
 
 import (
 	"encoding/json"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/gin-gonic/gin"
 	"github.com/bitschain/panicgo/model"
+	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 	"net/http"
 	"strconv"
@@ -52,7 +52,6 @@ func Signup(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
-
 // Signin 用户登录
 func Signin(c *gin.Context) {
 	var data SignInInfo
@@ -70,7 +69,7 @@ func Signin(c *gin.Context) {
 	if user.VerifyPassword(data.Password) {
 		if user.Status == model.UserStatusInActive {
 			c.JSON(http.StatusUnauthorized, gin.H{"errno": 401001, "msg": "inactive account"})
-		}else {
+		} else {
 			c.JSON(http.StatusOK, gin.H{"errno": 0, "msg": "success", "data": user})
 		}
 	} else {
@@ -82,7 +81,6 @@ func Signin(c *gin.Context) {
 func Signout(c *gin.Context) {
 
 }
-
 
 // UpdateInfo 更新用户信息
 func UpdateInfo(c *gin.Context) {

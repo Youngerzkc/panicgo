@@ -1,11 +1,11 @@
 package test
 
 import (
-	"github.com/jinzhu/gorm"
 	"fmt"
-	"os"
 	"github.com/bitschain/panicgo/model"
+	"github.com/jinzhu/gorm"
 	"log"
+	"os"
 )
 
 func InitTestDB() {

@@ -1,16 +1,16 @@
 package user
 
 import (
-	"testing"
-	"net/http/httptest"
-	"net/http"
 	"bytes"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"github.com/bitschain/panicgo/test"
-	"github.com/stretchr/testify/assert"
-	"github.com/bitschain/panicgo/model"
 	"fmt"
+	"github.com/bitschain/panicgo/model"
+	"github.com/bitschain/panicgo/test"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 )
 
 func TestSignup(t *testing.T) {
@@ -20,7 +20,7 @@ func TestSignup(t *testing.T) {
 
 	regInfo := SignUpInfo{"leonzhao", "yimingdream@gmail.com", "123456"}
 
-	bufStr, _:= json.Marshal(regInfo)
+	bufStr, _ := json.Marshal(regInfo)
 	c.Request, _ = http.NewRequest("POST", "/user/signup", bytes.NewBufferString(string(bufStr)))
 	c.Request.Header.Add("Content-Type", gin.MIMEJSON)
 

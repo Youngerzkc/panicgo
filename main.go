@@ -2,9 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 	"net/http"
@@ -17,16 +15,12 @@ import (
 )
 
 func init() {
-	db, err := gorm.Open("mysql", "root:19842895@tcp(localhost:3306)/panicgo?charset=utf8&parseTime=true")
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(-1)
-	}
-	model.DB = db
-	log.Println("init success")
 }
 
 func main() {
+	model.OpenDatabase()
+	defer model.CloseDatabase()
+
 	routes := gin.Default()
 
 	router.InitRoutes(routes)
@@ -56,5 +50,4 @@ func main() {
 		log.Fatal("Server Shutdown:", err)
 	}
 	log.Println("Server exit")
-
 }

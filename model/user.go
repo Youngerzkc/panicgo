@@ -55,7 +55,7 @@ func (user User) VerifyPassword(password string) bool {
 
 	ep := user.EncryptPassword(password, user.Salt())
 	return ep == user.Password
- }
+}
 
 const (
 	UserRoleNormal     = 1
