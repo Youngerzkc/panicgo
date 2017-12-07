@@ -1,10 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"github.com/BurntSushi/toml"
 	"log"
 	"os"
-	"fmt"
 	"path/filepath"
 )
 
@@ -27,13 +27,13 @@ type basicInfo struct {
 }
 
 type database struct {
-	Host     string `toml:"host"`
-	Port     uint   `toml:"port"`
-	Username string `toml:"username"`
-	Password string `toml:"password"`
-	DBName   string `toml:"dbname"`
-	Charset  string `toml:"charset"`
-	ParseTime bool `toml:"parse_time"`
+	Host      string `toml:"host"`
+	Port      uint   `toml:"port"`
+	Username  string `toml:"username"`
+	Password  string `toml:"password"`
+	DBName    string `toml:"dbname"`
+	Charset   string `toml:"charset"`
+	ParseTime bool   `toml:"parse_time"`
 }
 
 func GetConfig() (Config, error) {
@@ -43,7 +43,7 @@ func GetConfig() (Config, error) {
 	}
 	path := os.Getenv("GOPATH")
 
-	tomlFile := filepath.Join(path, "src/github.com/bitschain/panicgo/config", env +".toml")
+	tomlFile := filepath.Join(path, "src/github.com/bitschain/panicgo/config", env+".toml")
 	log.Println(tomlFile)
 
 	var config Config
@@ -57,6 +57,6 @@ func GetConfig() (Config, error) {
 
 func ParseDBUrl(c Config) string {
 	//root:19842895@tcp(localhost:3306)/panicgo?charset=utf8&parseTime=true
-	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%t",c.DB.Username, c.DB.Password, c.DB.Host, c.DB.Port, c.DB.DBName,c.DB.Charset, c.DB.ParseTime)
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%t", c.DB.Username, c.DB.Password, c.DB.Host, c.DB.Port, c.DB.DBName, c.DB.Charset, c.DB.ParseTime)
 	return connStr
 }

@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/bitschain/panicgo/config"
+	"github.com/jinzhu/gorm"
 	"log"
 )
 
@@ -29,5 +29,3 @@ func CloseDatabase() {
 	log.Println("close database.")
 	defer DB.Close()
 }
-
-
