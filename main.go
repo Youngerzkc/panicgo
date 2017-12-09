@@ -10,20 +10,23 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/bitschain/panicgo/model"
+	"github.com/bitschain/panicgo/config"
 	"github.com/bitschain/panicgo/router"
+	"github.com/bitschain/panicgo/server"
 )
 
 func init() {
 }
 
 func main() {
-	model.OpenDatabase()
-	defer model.CloseDatabase()
 
 	routes := gin.Default()
 
-	router.InitRoutes(routes)
+	var cfg config.TomlConfig
+	cfg.Load()
+
+	s := server.NewServer(&cfg)
+	router.InitRoutes(routes, s.Context)
 
 	srv := &http.Server{
 		Addr:    ":8080",

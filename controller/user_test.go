@@ -1,11 +1,10 @@
-package user
+package controller
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/bitschain/panicgo/model"
-	"github.com/bitschain/panicgo/test"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -14,7 +13,6 @@ import (
 )
 
 func TestSignup(t *testing.T) {
-	test.InitTestDB()
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
@@ -24,7 +22,9 @@ func TestSignup(t *testing.T) {
 	c.Request, _ = http.NewRequest("POST", "/user/signup", bytes.NewBufferString(string(bufStr)))
 	c.Request.Header.Add("Content-Type", gin.MIMEJSON)
 
-	Signup(c)
+	var pc *PanicController
+	pc = GetTestController()
+	pc.Signup(c)
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "application/json; charset=utf-8", w.HeaderMap.Get("Content-Type"))
 

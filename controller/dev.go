@@ -1,4 +1,4 @@
-package dev
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
@@ -6,7 +6,8 @@ import (
 	"net/http"
 )
 
-func Ping(c *gin.Context) {
+// Ping ping pong test
+func (pc *PanicController) Ping(c *gin.Context) {
 	log.Println("ping pong")
 	c.String(http.StatusOK, "pong")
 }

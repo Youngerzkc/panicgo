@@ -1,24 +1,23 @@
 package router
 
 import (
-	"github.com/bitschain/panicgo/controller/dev"
-	"github.com/bitschain/panicgo/controller/user"
+	"github.com/bitschain/panicgo/server"
 	"github.com/gin-gonic/gin"
 )
 
-func InitRoutes(e *gin.Engine) {
+func InitRoutes(e *gin.Engine, c *server.Context) {
 	// Client group: router
 	devRouter := e.Group("/dev")
 	{
-		devRouter.GET("/ping", dev.Ping)
+		devRouter.GET("/ping", c.Controller.Ping)
 	}
 
-	userRouter := e.Group("/user")
-	{
-		userRouter.POST("/signup", user.Signup)
-		userRouter.POST("/signin", user.Signin)
-		userRouter.POST("/signout", user.Signout)
-		userRouter.GET("/:id", user.PublicInfo)
-		userRouter.PUT("/:id", user.UpdateInfo)
-	}
+	//userRouter := e.Group("/user")
+	//{
+	//	userRouter.POST("/signup", c.Controller.Signup)
+	//	userRouter.POST("/signin", c.Controller.Signin)
+	//	userRouter.POST("/signout", c.Controller.Signout)
+	//	userRouter.GET("/:id", c.Controller.PublicInfo)
+	//	userRouter.PUT("/:id", c.Controller.UpdateInfo)
+	//}
 }

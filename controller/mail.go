@@ -1,13 +1,16 @@
-package mail
+package controller
 
+// sendEmail send email
 func sendEmail() {
 
 }
 
-func verifyLink() {
+// verifyEmail verify email sent from server
+func verifyEmail() {
 
 }
 
+// ActiveSendEmail active mail sent from server
 func ActiveSendEmail() {
 
 }
