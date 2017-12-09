@@ -1,17 +1,11 @@
 package controller
 
 import (
-	"net/http"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/gin-gonic/gin"
 	"github.com/bitschain/panicgo/service"
+	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"net/http"
 )
-
-
-type SignInInfo struct {
-	Email    string `json:"email" valid:"email,runelength(5|50)"`
-	Password string `json:"password" valid:"runelength(6|20)"`
-}
 
 // Signup 用户注册
 func (pc *PanicController) Signup(c *gin.Context) {
