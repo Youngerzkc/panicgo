@@ -16,7 +16,7 @@ func TestSignup(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	regInfo := SignUpInfo{"leonzhao", "yimingdream@gmail.com", "123456"}
+	regInfo := model.AccountInfo{"leonzhao", "yimingdream@gmail.com", "123456"}
 
 	bufStr, _ := json.Marshal(regInfo)
 	c.Request, _ = http.NewRequest("POST", "/user/signup", bytes.NewBufferString(string(bufStr)))

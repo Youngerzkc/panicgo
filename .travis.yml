@@ -11,11 +11,15 @@ git:
 install:
   - make install
 
+env:
+  - GOENV="testing"
+
 services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS panicgo_test'
+  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS panicgo_test'
+  - mysql -u root panicgo_test < sql/panicgo.sql
 
 script:
   - make vet

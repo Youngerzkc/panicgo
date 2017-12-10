@@ -60,6 +60,12 @@ type User struct {
 	Status       uint       `json:"status"`
 }
 
+type AccountInfo struct {
+	Name     string `json:"name" valid:"runelength(4|20)"`
+	Email    string `json:"email" valid:"email,runelength(5|50)"`
+	Password string `json:"password" valid:"runelength(6|20)"`
+}
+
 type UserInfo struct {
 	Email     string `json:"email"`
 	Sex       uint   `json:"sex"`

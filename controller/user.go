@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/bitschain/panicgo/service"
+	"github.com/bitschain/panicgo/model"
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"net/http"
@@ -9,7 +9,7 @@ import (
 
 // Signup 用户注册
 func (pc *PanicController) Signup(c *gin.Context) {
-	var data service.AccountInfo
+	var data model.AccountInfo
 	if err := c.BindJSON(&data); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
 	}
