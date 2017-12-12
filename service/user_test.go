@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/bitschain/panicgo/model"
+	"github.com/manveru/faker"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -9,9 +10,11 @@ import (
 func TestPanicService_CreateNewUser(t *testing.T) {
 	s := GetTestService()
 
-	data := model.AccountInfo{"leonzhao", "leonzhao@qq.com", "123456"}
+	fakeUser, _ := faker.New("en")
+	data := model.UserRegister{Name: fakeUser.Name(), Email: fakeUser.Email(), Password: "123456"}
 
-	user, err := s.CreateNewUser(data)
+	user, err := s.RegisterUser(data)
 	assert.Nil(t, err)
-	t.Logf("%+v", user)
+	assert.Equal(t, data.Name, user.Name)
+	assert.Equal(t, data.Email, user.Email)
 }

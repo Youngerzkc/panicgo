@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	"github.com/bitschain/panicgo/database"
+	"github.com/go-sql-driver/mysql"
+	"github.com/manveru/faker"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,13 +30,14 @@ func TestVerifyPassword(t *testing.T) {
 	assert.True(t, correct)
 }
 
-func TestPanicModels_CreateUser(t *testing.T) {
+func TestPanicModels_CreateUserSuccess(t *testing.T) {
 	var pm PanicModel
 	pm.DB = database.GetTestDB()
 
 	var user User
-	user.Name = "yiming"
-	user.Email = "yiming@qq.com"
+	fakeUser, _ := faker.New("en")
+	user.Name = fakeUser.Name()
+	user.Email = fakeUser.Email()
 	user.Password = user.EncryptPassword("123456", "hello world")
 
 	user, err := pm.CreateUser(user)
@@ -42,13 +45,34 @@ func TestPanicModels_CreateUser(t *testing.T) {
 	t.Log(user)
 }
 
+func TestPanicModels_CreateUserErrDupKey(t *testing.T) {
+	var pm PanicModel
+	pm.DB = database.GetTestDB()
+
+	var user User
+	fakeUser, _ := faker.New("en")
+	user.Name = fakeUser.Name()
+	user.Email = fakeUser.Email()
+	user.Password = user.EncryptPassword("123456", "hello world")
+
+	user, err := pm.CreateUser(user)
+	assert.Nil(t, nil, err)
+	t.Log(user)
+	_, err = pm.CreateUser(user)
+	// 通过反射得到真实类型
+	sqlErr, ok := err.(*mysql.MySQLError)
+	assert.Equal(t, true, ok)
+	assert.Equal(t, uint16(1062), sqlErr.Number)
+}
+
 func TestPanicModels_QueryUserById(t *testing.T) {
 	var pm PanicModel
 	pm.DB = database.GetTestDB()
 
 	var data User
-	data.Name = "yiming"
-	data.Email = "yiming@qq.com"
+	fakeUser, _ := faker.New("en")
+	data.Name = fakeUser.Name()
+	data.Email = fakeUser.Email()
 	data.Password = data.EncryptPassword("123456", "hello world")
 
 	user, err := pm.CreateUser(data)
@@ -60,19 +84,41 @@ func TestPanicModels_QueryUserById(t *testing.T) {
 	assert.Equal(t, user.ID, result.ID)
 }
 
+func TestPanicModel_QueryUser(t *testing.T) {
+	var pm PanicModel
+	pm.DB = database.GetTestDB()
+
+	var data User
+	fakeUser, _ := faker.New("en")
+	data.Name = fakeUser.Name()
+	data.Email = fakeUser.Email()
+	data.Password = data.EncryptPassword("123456", "hello world")
+
+	user, err := pm.CreateUser(data)
+	assert.Nil(t, nil, err)
+	t.Log(user)
+
+	var queryUser User
+	queryUser.Email = data.Email
+	result, err := pm.QueryUser(queryUser)
+	assert.Nil(t, nil, err)
+	t.Log(result)
+}
+
 func TestPanicModels_UpdateUserInfo(t *testing.T) {
 	var pm PanicModel
 	pm.DB = database.GetTestDB()
 
 	var data User
-	data.Name = "yiming"
-	data.Email = "yiming@qq.com"
+	fakeUser, _ := faker.New("en")
+	data.Name = fakeUser.Name()
+	data.Email = fakeUser.Email()
 	data.Password = data.EncryptPassword("123456", "hello world")
 
 	user, _ := pm.CreateUser(data)
 	t.Log(user)
 
-	info := UserInfo{"updatedemail@go.com", 1, "Chengdu", "Golang", "18012345678", "avatarurl.jpg", "coverurl.jpg"}
+	info := UserInfo{fakeUser.Email(), 1, "Chengdu", "Golang", "18012345678", "avatarurl.jpg", "coverurl.jpg"}
 
 	err := pm.UpdateUserInfo(user.ID, info)
 	assert.Nil(t, nil, err)
@@ -94,8 +140,9 @@ func TestPanicModels_DeleteUserById(t *testing.T) {
 	pm.DB = database.GetTestDB()
 
 	var data User
-	data.Name = "yiming"
-	data.Email = "yiming@qq.com"
+	fakeUser, _ := faker.New("en")
+	data.Name = fakeUser.Name()
+	data.Email = fakeUser.Email()
 	data.Password = data.EncryptPassword("123456", "hello world")
 
 	user, _ := pm.CreateUser(data)

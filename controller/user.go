@@ -9,21 +9,23 @@ import (
 
 // Signup 用户注册
 func (pc *PanicController) Signup(c *gin.Context) {
-	var data model.AccountInfo
+	var data model.UserRegister
 	if err := c.BindJSON(&data); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
+		c.JSON(http.StatusBadRequest, gin.H{"errno": 111, "errmsg": err.Error()})
+		return
 	}
-	user, err := pc.Service.CreateNewUser(data)
+	user, err := pc.Service.RegisterUser(data)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"errno": 201001, "msg": "创建用户失败"})
+		c.JSON(http.StatusOK, err)
+		return
 	}
 	c.JSON(http.StatusOK, user)
+	return
 }
 
 // Signin 用户登录
 func Signin(c *gin.Context) {
-	//var data SignInInfo
-	//
+
 	//if err := c.BindJSON(&data); err != nil {
 	//	c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
 	//}

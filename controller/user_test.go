@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/bitschain/panicgo/model"
 	"github.com/gin-gonic/gin"
+	"github.com/manveru/faker"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -16,7 +17,8 @@ func TestSignup(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	regInfo := model.AccountInfo{"leonzhao", "yimingdream@gmail.com", "123456"}
+	fakeUser, _ := faker.New("en")
+	regInfo := model.UserRegister{Name: "leonzhao", Email: fakeUser.Email(), Password: "123456"}
 
 	bufStr, _ := json.Marshal(regInfo)
 	c.Request, _ = http.NewRequest("POST", "/user/signup", bytes.NewBufferString(string(bufStr)))

@@ -12,7 +12,7 @@ func TestNewDB(t *testing.T) {
 		Host:      "localhost",
 		Port:      3306,
 		Username:  "root",
-		Password:  "123456",
+		Password:  "",
 		DBName:    "panicgo_test",
 		Charset:   "utf8",
 		ParseTime: true,

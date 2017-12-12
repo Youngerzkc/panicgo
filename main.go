@@ -20,17 +20,17 @@ func init() {
 
 func main() {
 
-	routes := gin.Default()
+	appengine := gin.Default()
 
 	var cfg config.TomlConfig
 	cfg.Load()
 
 	s := server.NewServer(&cfg)
-	router.InitRoutes(routes, s.Context)
+	router.InitRoutes(appengine, s.Context)
 
 	srv := &http.Server{
 		Addr:    ":8080",
-		Handler: routes,
+		Handler: appengine,
 	}
 
 	go func() {

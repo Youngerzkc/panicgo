@@ -2,6 +2,9 @@ GOFMT ?= gofmt "-s"
 PACKAGES ?= $(shell go list ./... | grep -v /vendor/)
 GOFILES := $(shell find . -name "*.go" -type f -not -path "./vendor/*")
 
+dev:
+	GOENV=development go build -o panicgo
+	./panicgo
 
 all:
 	go build -o panicgo
@@ -13,14 +16,11 @@ install: deps
 	govendor sync
 
 clean:
-	rm panicgo
+	go clean
 
 .PHONY: test
 test:
-	go test -v -covermode=count -coverprofile=coverage.out
-	go test -v ./model
-	go test -v ./controller
-	go test -v ./middleware/auth
+	GOENV=testing go test ./... -v
 
 .PHONY: fmt
 fmt:

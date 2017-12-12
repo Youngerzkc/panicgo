@@ -7,6 +7,7 @@ import (
 )
 
 func TestGetConfigDevelopmentEnv(t *testing.T) {
+	os.Setenv("GOENV", "development")
 	var c TomlConfig
 	if err := c.Load(); err != nil {
 		t.Fatal(err)

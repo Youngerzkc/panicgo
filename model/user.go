@@ -60,8 +60,13 @@ type User struct {
 	Status       uint       `json:"status"`
 }
 
-type AccountInfo struct {
+type UserRegister struct {
 	Name     string `json:"name" valid:"runelength(4|20)"`
+	Email    string `json:"email" valid:"email,runelength(5|50)"`
+	Password string `json:"password" valid:"runelength(6|20)"`
+}
+
+type UserLogin struct {
 	Email    string `json:"email" valid:"email,runelength(5|50)"`
 	Password string `json:"password" valid:"runelength(6|20)"`
 }
@@ -112,6 +117,13 @@ func (pm *PanicModel) CreateUser(user User) (User, error) {
 func (pm *PanicModel) QueryUserById(id uint) (User, error) {
 	var user User
 	if err := pm.DB.First(&user, id).Error; err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
+func (pm *PanicModel) QueryUser(user User) (User, error) {
+	if err := pm.DB.Where(&user).First(&user).Error; err != nil {
 		return user, err
 	}
 	return user, nil

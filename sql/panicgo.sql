@@ -294,7 +294,7 @@ CREATE TABLE `users` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `email` varchar(50) NOT NULL DEFAULT '',
+  `email` varchar(50) NOT NULL unique,
   `phone` varchar(50) DEFAULT NULL,
   `password` varchar(100) NOT NULL DEFAULT '',
   `score` int(11) unsigned NOT NULL,
