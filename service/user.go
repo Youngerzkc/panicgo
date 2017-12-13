@@ -4,8 +4,6 @@ import (
 	"github.com/bitschain/panicgo/errors"
 	"github.com/bitschain/panicgo/model"
 	"github.com/go-sql-driver/mysql"
-	"log"
-	"github.com/gin-gonic/gin"
 )
 
 func (s *PanicService) RegisterUser(data model.UserRegister) (model.User, *errors.PanicError) {

@@ -19,7 +19,7 @@ func NewDB(cfg *config.DBConfig) (*gorm.DB, error) {
 	uri := cfg.ParseURI()
 	db, err := gorm.Open(MySQLDialect, uri)
 	if err != nil {
-		log.Fatalln("failed to open db", uri)
+		log.Fatal(err)
 		return db, err
 	}
 	log.Println("opened database:", cfg.DBName)
