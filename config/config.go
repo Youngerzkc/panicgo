@@ -8,25 +8,29 @@ import (
 	"path/filepath"
 )
 
+// Environment Const
 const (
-	envDevelopment = "development"
-	envTesting     = "testing"
-	envDocker      = "docker"
-	envProduction  = "production"
+	EnvDevelopment = "development"
+	EnvTesting     = "testing"
+	EnvDocker      = "docker"
+	EnvProduction  = "production"
 )
 
-type Config struct {
-	Basic basicInfo `toml:"basic"`
-	DB    database  `toml:"database"`
+// TomlConfig Global config with toml format
+type TomlConfig struct {
+	Basic BasicInfo `toml:"basic"`
+	DB    DBConfig  `toml:"database"`
 }
 
-type basicInfo struct {
+// BasicInfo Basic config info
+type BasicInfo struct {
 	Name    string `toml:"name"`
 	Version string `toml:"version"`
 	ENV     string `toml:"env"`
 }
 
-type database struct {
+// DBConfig Database config
+type DBConfig struct {
 	Host      string `toml:"host"`
 	Port      uint   `toml:"port"`
 	Username  string `toml:"username"`
@@ -36,28 +40,27 @@ type database struct {
 	ParseTime bool   `toml:"parse_time"`
 }
 
-func GetConfig() (Config, error) {
+// Load load global config
+func (c *TomlConfig) Load() error {
 	env := os.Getenv("GOENV")
 	if env == "" {
-		env = envDevelopment
+		env = EnvDevelopment
 	}
-	// path := os.Getenv("GOPATH")
-	path,_:=os.Getwd()//modity file path
-	// log.Println("path is ",path)
-	tomlFile := filepath.Join(path, "/config", env+".toml")
-	log.Println(tomlFile)
+	path := os.Getenv("GOPATH")
 
-	var config Config
-	if _, err := toml.DecodeFile(tomlFile, &config); err != nil {
+	tomlFile := filepath.Join(path, "src/github.com/bitschain/panicgo/config", env+".toml")
+
+	log.Println("loading config:", tomlFile)
+	if _, err := toml.DecodeFile(tomlFile, c); err != nil {
 		log.Fatal(err)
-		return config, err
+		return err
 	}
-
-	return config, nil
+	return nil
 }
 
-func ParseDBUrl(c Config) string {
+// ParseURI parse database uri from config
+func (dbCfg *DBConfig) ParseURI() string {
 	//root:19842895@tcp(localhost:3306)/panicgo?charset=utf8&parseTime=true
-	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%t", c.DB.Username, c.DB.Password, c.DB.Host, c.DB.Port, c.DB.DBName, c.DB.Charset, c.DB.ParseTime)
-	return connStr
+	uri := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%t", dbCfg.Username, dbCfg.Password, dbCfg.Host, dbCfg.Port, dbCfg.DBName, dbCfg.Charset, dbCfg.ParseTime)
+	return uri
 }

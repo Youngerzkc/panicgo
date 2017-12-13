@@ -3,8 +3,7 @@ PACKAGES ?= $(shell go list ./... | grep -v /vendor/)
 GOFILES := $(shell find . -name "*.go" -type f -not -path "./vendor/*")
 
 dev:
-	GOENV=development go build -o panicgo
-	./panicgo
+	GOENV=development ./panicgo
 
 all:
 	go build -o panicgo
@@ -47,8 +46,8 @@ deps:
 		go get -u github.com/campoy/embedmd; \
 	fi
 
-embedmd:
-	embedmd -d *.md
+#embedmd:
+#	embedmd -d *.md
 
 .PHONY: lint
 lint:

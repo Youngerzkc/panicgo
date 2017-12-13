@@ -5,14 +5,14 @@ import (
 )
 
 type PanicError struct {
-	ErrMsg string	`json:"errmsg"`
-	ErrNo    int	`json:"errno"`
+	ErrMsg string `json:"errmsg"`
+	ErrNo  int    `json:"errno"`
 }
 
 func Wrap(err error, errno int, errmsg string) *PanicError {
 	//fmt.Errorf("%v", err)
 	return &PanicError{
-		ErrNo:    errno,
+		ErrNo:  errno,
 		ErrMsg: errmsg,
 	}
 }
