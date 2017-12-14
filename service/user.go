@@ -29,6 +29,18 @@ func (s *PanicService) RegisterUser(data model.UserRegister) (model.User, *error
 	return newUser, nil
 }
 
-func (s *PanicService) Login(data model.UserLogin) {
-
+func (s *PanicService) Login(data model.UserLogin) error {
+		 var user model.User
+		 	
+		 user.Email=data.Email
+		 var err error
+ 		if user,err =s.Model.QueryUser(user);err!=nil{
+		
+			return errors.Wrap(err,1002,"该用户未注册")
+		 }
+		 passwd:=user.EncryptPassword(data.Password, user.Salt()) 
+		 if passwd != user.Password{
+			return errors.Wrap(err, 1003, "密码错误,请重新输入密码")
+		 }
+		 return nil
 }

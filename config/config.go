@@ -46,10 +46,10 @@ func (c *TomlConfig) Load() error {
 	if env == "" {
 		env = EnvDevelopment
 	}
-	path := os.Getenv("GOPATH")
-
-	tomlFile := filepath.Join(path, "src/github.com/bitschain/panicgo/config", env+".toml")
-
+	// path := os.Getenv("GOPATH")
+	path,_:=os.Getwd()
+	// tomlFile := filepath.Join(path, "src/github.com/bitschain/panicgo/config", env+".toml")
+	tomlFile:=filepath.Join(path,"/config",env+".toml")
 	log.Println("loading config:", tomlFile)
 	if _, err := toml.DecodeFile(tomlFile, c); err != nil {
 		log.Fatal(err)

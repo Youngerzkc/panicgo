@@ -24,15 +24,25 @@ func (pc *PanicController) Signup(c *gin.Context) {
 }
 
 // Signin 用户登录
-func Signin(c *gin.Context) {
+func(pc *PanicController) Signin(c *gin.Context) {
+	  var data model.UserLogin
+	  if err := c.BindJSON(&data); err != nil {
+		 c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
 
-	//if err := c.BindJSON(&data); err != nil {
-	//	c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
-	//}
+		}
+		
+	  if err:= pc.Service.Login(data);err!=nil{
+		 c.JSON(http.StatusBadRequest,gin.H{
+			 "status":"badRequest",
+		 }) 
+		 return 
+	  }
+	  c.JSON(http.StatusOK,gin.H{
+		  "status":"login ok",
+	  })
+	  return  
 	//
-	//var user model.User
-	//
-	//if err := model.DB.Where("email = ?", data.Email).First(&user).Error; err != nil {
+	// if err := model.DB.Where("email = ?", data.Email).First(&user).Error; err != nil {
 	//	c.JSON(http.StatusBadRequest, gin.H{"status": "db error"})
 	//}
 	//

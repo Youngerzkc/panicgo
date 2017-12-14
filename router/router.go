@@ -15,7 +15,7 @@ func InitRoutes(e *gin.Engine, c *server.Context) {
 	userRouter := e.Group("/user")
 	{
 		userRouter.POST("/signup", c.Controller.Signup)
-		//userRouter.POST("/signin", c.Controller.Signin)
+		userRouter.POST("/signin", c.Controller.Signin)
 		//userRouter.POST("/signout", c.Controller.Signout)
 		//userRouter.GET("/:id", c.Controller.PublicInfo)
 		//userRouter.PUT("/:id", c.Controller.UpdateInfo)
